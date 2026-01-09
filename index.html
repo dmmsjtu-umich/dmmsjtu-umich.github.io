@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Name - Academic Homepage</title>
+    <title>Miaomiao Dai - Academic Homepage</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -15,7 +15,7 @@
                 <a href="#about" class="nav-link active">About</a>
                 <a href="#education" class="nav-link">Education</a>
                 <a href="#research" class="nav-link">Research</a>
-                <a href="#publications" class="nav-link">Publications</a>
+                <a href="#projects" class="nav-link">Projects</a>
                 <a href="#awards" class="nav-link">Awards</a>
             </div>
         </nav>
@@ -26,34 +26,37 @@
         <section id="about" class="section">
             <div class="about-content">
                 <div class="profile-image">
-                    <img src="assets/profile.jpg" alt="Profile Photo">
+                    <img src="assets/profile.jpg" alt="Miaomiao Dai">
                 </div>
                 <div class="about-text">
-                    <h1>Your Name / 你的名字</h1>
+                    <h1>Miaomiao Dai</h1>
                     <p class="subtitle">Undergraduate Student</p>
-                    <p class="affiliation">Department of Computer Science</p>
-                    <p class="affiliation">Your University</p>
+                    <p class="affiliation">University of Michigan, Ann Arbor</p>
+                    <p class="affiliation">Shanghai Jiao Tong University</p>
 
                     <div class="contact-info">
-                        <p><strong>Email:</strong> your.email@example.com</p>
-                        <p><strong>GitHub:</strong> <a href="https://github.com/yourusername" target="_blank">github.com/yourusername</a></p>
+                        <p><strong>Email:</strong> dmmsjtu@umich.edu</p>
+                        <p><strong>Phone:</strong> 734-263-7315</p>
                     </div>
 
                     <div class="links">
-                        <a href="assets/CV.pdf" class="btn" target="_blank">📄 CV / Resume</a>
-                        <a href="https://scholar.google.com/" class="btn" target="_blank">📚 Google Scholar</a>
+                        <a href="assets/CV.pdf" class="btn" target="_blank">CV / Resume</a>
+                        <a href="https://github.com/dmmsjtu-umich" class="btn" target="_blank">GitHub</a>
                     </div>
                 </div>
             </div>
 
             <div class="bio">
                 <p>
-                    I am an undergraduate student at <strong>Your University</strong>, majoring in Computer Science.
-                    My research interests include <strong>Machine Learning</strong>, <strong>Computer Vision</strong>,
-                    and <strong>Natural Language Processing</strong>.
+                    I am a dual-degree undergraduate student at the <strong>University of Michigan, Ann Arbor</strong> (Computer Science)
+                    and <strong>Shanghai Jiao Tong University</strong> (Mechanical Engineering).
                 </p>
                 <p>
-                    I am actively seeking <strong>PhD/Master opportunities</strong> for Fall 2026.
+                    My research interests include <strong>Robotics</strong>, <strong>Trajectory Planning</strong>,
+                    <strong>Autonomous Driving</strong>, and <strong>Deep Learning</strong>.
+                </p>
+                <p>
+                    I am actively seeking <strong>PhD opportunities</strong> for Fall 2026.
                     Feel free to reach out if you are interested in my work!
                 </p>
             </div>
@@ -65,12 +68,21 @@
 
             <div class="education-item">
                 <div class="edu-header">
-                    <h3>Your University</h3>
-                    <span class="date">Sept. 2022 - June 2026 (Expected)</span>
+                    <h3>University of Michigan, Ann Arbor</h3>
+                    <span class="date">Aug. 2024 - Present</span>
                 </div>
-                <p class="degree">B.S. in Computer Science</p>
-                <p class="details">GPA: 3.9/4.0 | Rank: Top 5%</p>
-                <p class="details"><strong>Relevant Coursework:</strong> Machine Learning, Deep Learning, Computer Vision, Data Structures & Algorithms</p>
+                <p class="degree">B.E. in Computer Science</p>
+                <p class="details">GPA: 3.97/4.00</p>
+                <p class="details"><strong>Relevant Coursework:</strong> Data Structures and Algorithms, Introduction to Machine Learning, Introduction to Algorithmic Robotics, Robot Learning (A+), Computer Vision, Foundations of Computer Science, Computer Organization</p>
+            </div>
+
+            <div class="education-item">
+                <div class="edu-header">
+                    <h3>Shanghai Jiao Tong University</h3>
+                    <span class="date">Sept. 2022 - Aug. 2026 (Expected)</span>
+                </div>
+                <p class="degree">B.E. in Mechanical Engineering</p>
+                <p class="details">GPA: 3.56/4.00</p>
             </div>
         </section>
 
@@ -80,67 +92,96 @@
 
             <div class="research-item">
                 <div class="research-header">
-                    <h3>Research Project Title</h3>
-                    <span class="date">June 2024 - Present</span>
+                    <h3>Fast Differential Dynamic Programming for Time-Optimal Trajectory Planning</h3>
+                    <span class="date">July 2025 - Present</span>
                 </div>
-                <p class="lab">Lab Name, University | Advisor: Prof. XXX</p>
+                <p class="lab">Shanghai Jiao Tong University | Advisor: Prof. Zhongqiang Ren</p>
                 <div class="research-content">
                     <div class="research-text">
                         <ul>
-                            <li>Developed a novel method for XXX, achieving state-of-the-art performance on benchmark datasets.</li>
-                            <li>Implemented the proposed algorithm using PyTorch and conducted extensive experiments.</li>
-                            <li>Paper under review at top-tier venue (e.g., NeurIPS, CVPR, ACL).</li>
+                            <li>Developed a novel control framework that automatically determines the optimal time horizon T* to solve the long-standing limitation of manual tuning in standard algorithms.</li>
+                            <li>Invented an efficient evaluation method capable of computing all possible horizons in a single pass, reducing computational complexity from O(N²n³) to O(Nn³).</li>
+                            <li>Outperformed prior SOTA methods by returning the exact optimal T* with comparable runtime.</li>
                         </ul>
                     </div>
                     <div class="research-media">
-                        <img src="assets/project1.png" alt="Project 1 Demo">
+                        <img src="assets/project1.png" alt="Trajectory Planning">
                     </div>
                 </div>
             </div>
 
             <div class="research-item">
                 <div class="research-header">
-                    <h3>Another Research Project</h3>
-                    <span class="date">Sept. 2023 - May 2024</span>
+                    <h3>Scalable Simulation Infrastructure for Autonomous Driving</h3>
+                    <span class="date">May 2025 - Aug. 2025</span>
                 </div>
-                <p class="lab">Another Lab, University | Advisor: Prof. YYY</p>
+                <p class="lab">University of Michigan, Ann Arbor | Advisor: Prof. Henry Liu, Haowei Sun (Postdoc)</p>
                 <div class="research-content">
                     <div class="research-text">
                         <ul>
-                            <li>Investigated the problem of XXX in the context of YYY.</li>
-                            <li>Designed and implemented a pipeline for data collection and preprocessing.</li>
-                            <li>Results presented at undergraduate research symposium.</li>
+                            <li>Engineered a scalable simulation pipeline on the Terasim platform to generate adversarial construction zone scenarios, addressing data scarcity of long-tail corner cases in urban driving.</li>
+                            <li>Developed an automated algorithm to procedurally generate diverse construction sites across the Ann Arbor digital map, incorporating realistic road topology and constraints.</li>
+                            <li>Implemented a robust data conversion module to standardize simulation outputs into the Waymo Open Dataset format.</li>
                         </ul>
                     </div>
                     <div class="research-media">
-                        <img src="assets/project2.png" alt="Project 2 Demo">
+                        <img src="assets/project2.png" alt="Autonomous Driving Simulation">
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Publications Section -->
-        <section id="publications" class="section">
-            <h2 class="section-title">Publications</h2>
+        <!-- Projects Section -->
+        <section id="projects" class="section">
+            <h2 class="section-title">Selected Projects</h2>
 
-            <div class="publication-item">
-                <p class="pub-title">
-                    <strong>Paper Title Here</strong>
-                </p>
-                <p class="pub-authors">
-                    <span class="highlight">Your Name</span>, Co-author Name, Advisor Name
-                </p>
-                <p class="pub-venue">
-                    <em>Conference/Journal Name, Year</em>
-                </p>
-                <div class="pub-links">
-                    <a href="#" class="pub-link">[Paper]</a>
-                    <a href="#" class="pub-link">[Code]</a>
-                    <a href="#" class="pub-link">[Project Page]</a>
+            <div class="research-item">
+                <div class="research-header">
+                    <h3>Deep Learning for Visual Classification & Representation</h3>
+                    <span class="date">Course Project: Computer Vision</span>
+                </div>
+                <div class="research-content">
+                    <div class="research-text">
+                        <ul>
+                            <li>Built a Vision Transformer (ViT) in PyTorch by manually implementing patch embeddings, learnable CLS tokens, and Multi-head Self-Attention.</li>
+                            <li>Executed a Transfer Learning pipeline by pre-training an eight-class CNN on source domain data and fine-tuning for binary target task.</li>
+                            <li>Achieved a test AUROC of 0.87 through data augmentation and rigorous hyperparameter tuning.</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 
-            <p class="note">* More papers in preparation / under review.</p>
+            <div class="research-item">
+                <div class="research-header">
+                    <h3>Neural ODE for Planar Pushing Dynamics</h3>
+                    <span class="date">Course Project: Robot Learning</span>
+                </div>
+                <div class="research-content">
+                    <div class="research-text">
+                        <ul>
+                            <li>Developed a continuous-time dynamics model using Neural ODEs to capture the complex physics of robot pushing.</li>
+                            <li>Achieved a 38% decrease in prediction errors by designing a physics-aware SE(2) loss function and finetuning differential equation solvers.</li>
+                            <li>Integrated with a Model Predictive Path Integral (MPPI) controller for a Franka Panda robot to execute precise pushing tasks.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="research-item">
+                <div class="research-header">
+                    <h3>Large Language Model Implementation & Training (GPT)</h3>
+                    <span class="date">Course Project: Natural Language Processing</span>
+                </div>
+                <div class="research-content">
+                    <div class="research-text">
+                        <ul>
+                            <li>Built a modern decoder-only Transformer in PyTorch with Rotary Position Embeddings (RoPE), SwiGLU activation, and RMSNorm (LLaMA-style architecture).</li>
+                            <li>Pre-trained on 1B tokens of the FineWeb-Edu dataset using Mixed Precision (BF16), Gradient Accumulation, and torch.compile.</li>
+                            <li>Implemented Supervised Fine-Tuning (SFT) pipeline with selective loss masking on the SmolTalk corpus.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <!-- Awards Section -->
@@ -148,17 +189,40 @@
             <h2 class="section-title">Awards & Honors</h2>
 
             <ul class="awards-list">
-                <li><strong>National Scholarship</strong> (Top 1%), 2024</li>
-                <li><strong>First Prize</strong>, XXX Competition, 2023</li>
-                <li><strong>Dean's List</strong>, Your University, 2022-2024</li>
-                <li><strong>Outstanding Undergraduate Research Award</strong>, 2024</li>
+                <li><strong>Honorable Mention</strong>, Interdisciplinary Contest in Modeling (ICM), May 2023</li>
+                <li><strong>First Prize</strong>, 13th SJTU Liming Cup Mechanical Innovation Competition for Freshmen, May 2023</li>
+                <li><strong>Outstanding Volunteer</strong>, Miyuan Volunteer Team, March 2023</li>
             </ul>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="section">
+            <h2 class="section-title">Skills</h2>
+
+            <div class="skills-container">
+                <div class="skill-category">
+                    <h4>Programming Languages</h4>
+                    <p>Python, C++, C, MATLAB, SQL, LaTeX</p>
+                </div>
+                <div class="skill-category">
+                    <h4>Deep Learning & AI</h4>
+                    <p>PyTorch, OpenAI Gym, NumPy, SciPy, Pandas, OpenCV, Transformers</p>
+                </div>
+                <div class="skill-category">
+                    <h4>Robotics & Simulation</h4>
+                    <p>PyBullet, Gazebo, SUMO, Terasim, SolidWorks, ROS</p>
+                </div>
+                <div class="skill-category">
+                    <h4>Tools & Platforms</h4>
+                    <p>Git, Linux (Ubuntu), Docker, Waymo Open Dataset</p>
+                </div>
+            </div>
         </section>
 
         <!-- Footer -->
         <footer class="footer">
             <p>Last updated: January 2026</p>
-            <p>© 2026 Your Name. All rights reserved.</p>
+            <p>&copy; 2026 Miaomiao Dai. All rights reserved.</p>
         </footer>
         </main>
     </div>
