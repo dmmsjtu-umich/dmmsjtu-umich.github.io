@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name - Academic Homepage</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Main Wrapper - 外边框容器 -->
+    <div class="main-wrapper">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="#about" class="nav-link active">About</a>
+                <a href="#education" class="nav-link">Education</a>
+                <a href="#research" class="nav-link">Research</a>
+                <a href="#publications" class="nav-link">Publications</a>
+                <a href="#awards" class="nav-link">Awards</a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="container">
+        <!-- About Section -->
+        <section id="about" class="section">
+            <div class="about-content">
+                <div class="profile-image">
+                    <img src="assets/profile.jpg" alt="Profile Photo">
+                </div>
+                <div class="about-text">
+                    <h1>Your Name / 你的名字</h1>
+                    <p class="subtitle">Undergraduate Student</p>
+                    <p class="affiliation">Department of Computer Science</p>
+                    <p class="affiliation">Your University</p>
+
+                    <div class="contact-info">
+                        <p><strong>Email:</strong> your.email@example.com</p>
+                        <p><strong>GitHub:</strong> <a href="https://github.com/yourusername" target="_blank">github.com/yourusername</a></p>
+                    </div>
+
+                    <div class="links">
+                        <a href="assets/CV.pdf" class="btn" target="_blank">📄 CV / Resume</a>
+                        <a href="https://scholar.google.com/" class="btn" target="_blank">📚 Google Scholar</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bio">
+                <p>
+                    I am an undergraduate student at <strong>Your University</strong>, majoring in Computer Science.
+                    My research interests include <strong>Machine Learning</strong>, <strong>Computer Vision</strong>,
+                    and <strong>Natural Language Processing</strong>.
+                </p>
+                <p>
+                    I am actively seeking <strong>PhD/Master opportunities</strong> for Fall 2026.
+                    Feel free to reach out if you are interested in my work!
+                </p>
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section id="education" class="section">
+            <h2 class="section-title">Education</h2>
+
+            <div class="education-item">
+                <div class="edu-header">
+                    <h3>Your University</h3>
+                    <span class="date">Sept. 2022 - June 2026 (Expected)</span>
+                </div>
+                <p class="degree">B.S. in Computer Science</p>
+                <p class="details">GPA: 3.9/4.0 | Rank: Top 5%</p>
+                <p class="details"><strong>Relevant Coursework:</strong> Machine Learning, Deep Learning, Computer Vision, Data Structures & Algorithms</p>
+            </div>
+        </section>
+
+        <!-- Research Section -->
+        <section id="research" class="section">
+            <h2 class="section-title">Research Experience</h2>
+
+            <div class="research-item">
+                <div class="research-header">
+                    <h3>Research Project Title</h3>
+                    <span class="date">June 2024 - Present</span>
+                </div>
+                <p class="lab">Lab Name, University | Advisor: Prof. XXX</p>
+                <div class="research-content">
+                    <div class="research-text">
+                        <ul>
+                            <li>Developed a novel method for XXX, achieving state-of-the-art performance on benchmark datasets.</li>
+                            <li>Implemented the proposed algorithm using PyTorch and conducted extensive experiments.</li>
+                            <li>Paper under review at top-tier venue (e.g., NeurIPS, CVPR, ACL).</li>
+                        </ul>
+                    </div>
+                    <div class="research-media">
+                        <img src="assets/project1.png" alt="Project 1 Demo">
+                    </div>
+                </div>
+            </div>
+
+            <div class="research-item">
+                <div class="research-header">
+                    <h3>Another Research Project</h3>
+                    <span class="date">Sept. 2023 - May 2024</span>
+                </div>
+                <p class="lab">Another Lab, University | Advisor: Prof. YYY</p>
+                <div class="research-content">
+                    <div class="research-text">
+                        <ul>
+                            <li>Investigated the problem of XXX in the context of YYY.</li>
+                            <li>Designed and implemented a pipeline for data collection and preprocessing.</li>
+                            <li>Results presented at undergraduate research symposium.</li>
+                        </ul>
+                    </div>
+                    <div class="research-media">
+                        <img src="assets/project2.png" alt="Project 2 Demo">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Publications Section -->
+        <section id="publications" class="section">
+            <h2 class="section-title">Publications</h2>
+
+            <div class="publication-item">
+                <p class="pub-title">
+                    <strong>Paper Title Here</strong>
+                </p>
+                <p class="pub-authors">
+                    <span class="highlight">Your Name</span>, Co-author Name, Advisor Name
+                </p>
+                <p class="pub-venue">
+                    <em>Conference/Journal Name, Year</em>
+                </p>
+                <div class="pub-links">
+                    <a href="#" class="pub-link">[Paper]</a>
+                    <a href="#" class="pub-link">[Code]</a>
+                    <a href="#" class="pub-link">[Project Page]</a>
+                </div>
+            </div>
+
+            <p class="note">* More papers in preparation / under review.</p>
+        </section>
+
+        <!-- Awards Section -->
+        <section id="awards" class="section">
+            <h2 class="section-title">Awards & Honors</h2>
+
+            <ul class="awards-list">
+                <li><strong>National Scholarship</strong> (Top 1%), 2024</li>
+                <li><strong>First Prize</strong>, XXX Competition, 2023</li>
+                <li><strong>Dean's List</strong>, Your University, 2022-2024</li>
+                <li><strong>Outstanding Undergraduate Research Award</strong>, 2024</li>
+            </ul>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Last updated: January 2026</p>
+            <p>© 2026 Your Name. All rights reserved.</p>
+        </footer>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

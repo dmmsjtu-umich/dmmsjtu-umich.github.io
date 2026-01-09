@@ -1,0 +1,508 @@
+/* Reset & Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.7;
+    color: #333;
+    background-color: #f0f0f0;
+}
+
+a {
+    color: #0066cc;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: #004499;
+}
+
+/* Main Wrapper - 外边框容器（书本效果） */
+.main-wrapper {
+    max-width: 1000px;
+    margin: 30px auto;
+    background: #fff;
+    min-height: calc(100vh - 60px);
+    border-radius: 20px;
+    border: 1px solid #e0e0e0;
+    box-shadow:
+        0 10px 40px rgba(0, 0, 0, 0.08),
+        0 2px 10px rgba(0, 0, 0, 0.04);
+    overflow: hidden;
+}
+
+/* Navigation */
+.navbar {
+    position: sticky;
+    top: 0;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #eee;
+    z-index: 1000;
+}
+
+.nav-container {
+    padding: 18px 40px;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+
+.nav-link {
+    color: #666;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    letter-spacing: 0.3px;
+}
+
+.nav-link:hover {
+    color: #333;
+    background: #f5f5f5;
+}
+
+.nav-link.active {
+    color: #0066cc;
+    background: #e8f4fc;
+}
+
+/* Main Container */
+.container {
+    padding: 50px 60px;
+}
+
+/* Sections */
+.section {
+    padding: 45px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.section:first-child {
+    padding-top: 0;
+}
+
+.section:last-of-type {
+    border-bottom: none;
+}
+
+.section-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 28px;
+    padding-bottom: 12px;
+    border-bottom: 3px solid #0066cc;
+    display: inline-block;
+}
+
+/* About Section */
+.about-content {
+    display: flex;
+    gap: 45px;
+    align-items: flex-start;
+    margin-bottom: 35px;
+}
+
+.profile-image {
+    flex-shrink: 0;
+}
+
+.profile-image img {
+    width: 200px;
+    height: 200px;
+    border-radius: 12px;
+    object-fit: cover;
+    border: 4px solid #fff;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.about-text h1 {
+    font-size: 34px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 10px;
+    letter-spacing: -0.5px;
+}
+
+.subtitle {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+
+.affiliation {
+    color: #666;
+    font-size: 15px;
+    margin-bottom: 4px;
+}
+
+.contact-info {
+    margin-top: 18px;
+    font-size: 14px;
+    color: #555;
+}
+
+.contact-info p {
+    margin-bottom: 6px;
+}
+
+.links {
+    margin-top: 22px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #0066cc;
+    color: #fff;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 102, 204, 0.3);
+}
+
+.btn:hover {
+    background: #0052a3;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 102, 204, 0.4);
+}
+
+.bio {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    padding: 25px 30px;
+    border-radius: 12px;
+    border-left: 5px solid #0066cc;
+}
+
+.bio p {
+    margin-bottom: 14px;
+    color: #444;
+}
+
+.bio p:last-child {
+    margin-bottom: 0;
+}
+
+/* Education Section */
+.education-item {
+    background: #fafafa;
+    padding: 22px 28px;
+    border-radius: 12px;
+    border: 1px solid #eee;
+    margin-bottom: 16px;
+}
+
+.edu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.edu-header h3 {
+    font-size: 18px;
+    color: #1a1a1a;
+    font-weight: 600;
+}
+
+.date {
+    color: #888;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.degree {
+    color: #0066cc;
+    font-weight: 600;
+    margin: 10px 0;
+    font-size: 15px;
+}
+
+.details {
+    color: #666;
+    font-size: 14px;
+    margin-top: 6px;
+    line-height: 1.6;
+}
+
+/* Research Section */
+.research-item {
+    background: #fafafa;
+    padding: 28px;
+    border-radius: 12px;
+    border: 1px solid #eee;
+    margin-bottom: 22px;
+    transition: all 0.2s ease;
+}
+
+.research-item:hover {
+    border-color: #ddd;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.research-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.research-header h3 {
+    font-size: 18px;
+    color: #1a1a1a;
+    font-weight: 600;
+}
+
+.lab {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 18px;
+}
+
+.research-content {
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+}
+
+.research-text {
+    flex: 1;
+}
+
+.research-text ul {
+    padding-left: 20px;
+}
+
+.research-text li {
+    color: #555;
+    font-size: 14px;
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+
+.research-media {
+    flex-shrink: 0;
+    width: 280px;
+}
+
+.research-media img {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid #eee;
+}
+
+/* Publications Section */
+.publication-item {
+    background: #fafafa;
+    padding: 22px 28px;
+    border-radius: 12px;
+    border: 1px solid #eee;
+    margin-bottom: 16px;
+    transition: all 0.2s ease;
+}
+
+.publication-item:hover {
+    border-color: #ddd;
+}
+
+.pub-title {
+    font-size: 16px;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.pub-authors {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+.pub-authors .highlight {
+    color: #0066cc;
+    font-weight: 600;
+}
+
+.pub-venue {
+    color: #888;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.pub-links {
+    display: flex;
+    gap: 18px;
+}
+
+.pub-link {
+    font-size: 13px;
+    color: #0066cc;
+    font-weight: 600;
+    padding: 4px 10px;
+    background: #e8f4fc;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.pub-link:hover {
+    background: #d0e8f8;
+}
+
+.note {
+    color: #888;
+    font-size: 14px;
+    font-style: italic;
+    margin-top: 18px;
+}
+
+/* Awards Section */
+.awards-list {
+    background: #fafafa;
+    padding: 22px 28px 22px 50px;
+    border-radius: 12px;
+    border: 1px solid #eee;
+}
+
+.awards-list li {
+    color: #555;
+    font-size: 15px;
+    margin-bottom: 12px;
+    line-height: 1.6;
+}
+
+.awards-list li:last-child {
+    margin-bottom: 0;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 35px 0;
+    color: #999;
+    font-size: 13px;
+    border-top: 1px solid #eee;
+    margin-top: 20px;
+}
+
+.footer p {
+    margin-bottom: 5px;
+}
+
+/* Responsive Design */
+@media (max-width: 1060px) {
+    .main-wrapper {
+        margin: 20px;
+        border-radius: 16px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .main-wrapper {
+        margin: 15px;
+        border-radius: 14px;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 35px 25px;
+    }
+
+    .nav-container {
+        gap: 20px;
+        padding: 15px 20px;
+        flex-wrap: wrap;
+    }
+
+    .nav-link {
+        font-size: 14px;
+    }
+
+    .about-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 25px;
+    }
+
+    .profile-image img {
+        width: 160px;
+        height: 160px;
+    }
+
+    .about-text h1 {
+        font-size: 26px;
+    }
+
+    .links {
+        justify-content: center;
+    }
+
+    .bio {
+        text-align: left;
+    }
+
+    .research-content {
+        flex-direction: column;
+    }
+
+    .research-media {
+        width: 100%;
+        max-width: 320px;
+    }
+
+    .edu-header,
+    .research-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 25px 18px;
+    }
+
+    .section {
+        padding: 35px 0;
+    }
+
+    .profile-image img {
+        width: 140px;
+        height: 140px;
+    }
+
+    .about-text h1 {
+        font-size: 22px;
+    }
+
+    .section-title {
+        font-size: 19px;
+    }
+
+    .education-item,
+    .research-item,
+    .publication-item {
+        padding: 18px 20px;
+    }
+}
