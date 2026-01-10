@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Miaomiao Dai - Academic Homepage</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
-    <!-- Main Wrapper - 外边框容器 -->
     <div class="main-wrapper">
         <!-- Navigation -->
         <nav class="navbar">
@@ -16,12 +16,10 @@
                 <a href="#education" class="nav-link">Education</a>
                 <a href="#research" class="nav-link">Research</a>
                 <a href="#projects" class="nav-link">Projects</a>
-                <a href="#awards" class="nav-link">Awards</a>
+                <a href="#skills" class="nav-link">Skills</a>
             </div>
         </nav>
 
-        <!-- Main Content -->
-        <main class="container">
         <!-- About Section -->
         <section id="about" class="section">
             <div class="about-content">
@@ -36,29 +34,17 @@
 
                     <div class="contact-info">
                         <p><strong>Email:</strong> dmmsjtu@umich.edu</p>
-                        <p><strong>Phone:</strong> 734-263-7315</p>
                     </div>
 
                     <div class="links">
-                        <a href="assets/CV.pdf" class="btn" target="_blank">CV / Resume</a>
-                        <a href="https://github.com/dmmsjtu-umich" class="btn" target="_blank">GitHub</a>
+                        <a href="assets/CV.pdf" class="btn" target="_blank"><i class="fas fa-file-alt"></i> CV / Resume</a>
+                        <a href="https://github.com/dmmsjtu-umich" class="btn" target="_blank"><i class="fab fa-github"></i> GitHub</a>
                     </div>
                 </div>
             </div>
 
             <div class="bio">
-                <p>
-                    I am a dual-degree undergraduate student at the <strong>University of Michigan, Ann Arbor</strong> (Computer Science)
-                    and <strong>Shanghai Jiao Tong University</strong> (Mechanical Engineering).
-                </p>
-                <p>
-                    My research interests include <strong>Robotics</strong>, <strong>Trajectory Planning</strong>,
-                    <strong>Autonomous Driving</strong>, and <strong>Deep Learning</strong>.
-                </p>
-                <p>
-                    I am actively seeking <strong>PhD opportunities</strong> for Fall 2026.
-                    Feel free to reach out if you are interested in my work!
-                </p>
+                I am a dual-degree undergraduate student at <strong>University of Michigan</strong> (Computer Science) and <strong>Shanghai Jiao Tong University</strong> (Mechanical Engineering). My research interests include <strong>Robotics</strong>, <strong>Trajectory Planning</strong>, <strong>Autonomous Driving</strong>, and <strong>Deep Learning</strong>.
             </div>
         </section>
 
@@ -71,160 +57,116 @@
                     <h3>University of Michigan, Ann Arbor</h3>
                     <span class="date">Aug. 2024 - Present</span>
                 </div>
-                <p class="degree">B.E. in Computer Science</p>
-                <p class="details">GPA: 3.97/4.00</p>
-                <p class="details"><strong>Relevant Coursework:</strong> Data Structures and Algorithms, Introduction to Machine Learning, Introduction to Algorithmic Robotics, Robot Learning (A+), Computer Vision, Foundations of Computer Science, Computer Organization</p>
+                <p class="degree">B.E. in Computer Science, GPA: 3.97/4.00</p>
+                <p class="details">Courses: Data Structures and Algorithms (A), Machine Learning (A), Algorithmic Robotics (A), Robot Learning (A+), Computer Vision (A)</p>
             </div>
 
             <div class="education-item">
                 <div class="edu-header">
                     <h3>Shanghai Jiao Tong University</h3>
-                    <span class="date">Sept. 2022 - Aug. 2026 (Expected)</span>
+                    <span class="date">Sept. 2022 - Aug. 2026</span>
                 </div>
-                <p class="degree">B.E. in Mechanical Engineering</p>
-                <p class="details">GPA: 3.56/4.00</p>
+                <p class="degree">B.E. in Mechanical Engineering, GPA: 3.56/4.00</p>
             </div>
         </section>
 
         <!-- Research Section -->
         <section id="research" class="section">
-            <h2 class="section-title">Research Experience</h2>
+            <h2 class="section-title">Research</h2>
 
-            <div class="research-item">
-                <div class="research-header">
-                    <h3>Fast Differential Dynamic Programming for Time-Optimal Trajectory Planning</h3>
-                    <span class="date">July 2025 - Present</span>
-                </div>
-                <p class="lab">Shanghai Jiao Tong University | Advisor: Prof. Zhongqiang Ren</p>
-                <div class="research-content">
-                    <div class="research-text">
-                        <ul>
-                            <li>Developed a novel control framework that automatically determines the optimal time horizon T* to solve the long-standing limitation of manual tuning in standard algorithms.</li>
-                            <li>Invented an efficient evaluation method capable of computing all possible horizons in a single pass, reducing computational complexity from O(N²n³) to O(Nn³).</li>
-                            <li>Outperformed prior SOTA methods by returning the exact optimal T* with comparable runtime.</li>
-                        </ul>
-                    </div>
-                    <div class="research-media">
-                        <img src="assets/project1.png" alt="Trajectory Planning">
-                    </div>
+            <div class="item">
+                <h3 class="item-title">
+                    <a href="https://github.com/dmmsjtu-umich" target="_blank">Fast Differential Dynamic Programming for Time-Optimal Trajectory Planning <i class="fab fa-github"></i></a>
+                </h3>
+                <p class="item-meta">Shanghai Jiao Tong University | Advisor: Prof. Zhongqiang Ren | July 2025 - Present</p>
+                <p class="item-desc">Developed a novel control framework that automatically determines the optimal time horizon T*, reducing computational complexity from O(N²n³) to O(Nn³) and outperforming prior SOTA methods.</p>
+                <div class="item-demos">
+                    <img src="assets/research-ddp-1.gif" alt="DDP Demo 1">
+                    <img src="assets/research-ddp-2.gif" alt="DDP Demo 2">
                 </div>
             </div>
 
-            <div class="research-item">
-                <div class="research-header">
-                    <h3>Scalable Simulation Infrastructure for Autonomous Driving</h3>
-                    <span class="date">May 2025 - Aug. 2025</span>
-                </div>
-                <p class="lab">University of Michigan, Ann Arbor | Advisor: Prof. Henry Liu, Haowei Sun (Postdoc)</p>
-                <div class="research-content">
-                    <div class="research-text">
-                        <ul>
-                            <li>Engineered a scalable simulation pipeline on the Terasim platform to generate adversarial construction zone scenarios, addressing data scarcity of long-tail corner cases in urban driving.</li>
-                            <li>Developed an automated algorithm to procedurally generate diverse construction sites across the Ann Arbor digital map, incorporating realistic road topology and constraints.</li>
-                            <li>Implemented a robust data conversion module to standardize simulation outputs into the Waymo Open Dataset format.</li>
-                        </ul>
-                    </div>
-                    <div class="research-media">
-                        <img src="assets/project2.png" alt="Autonomous Driving Simulation">
-                    </div>
+            <div class="item">
+                <h3 class="item-title">
+                    <a href="https://github.com/dmmsjtu-umich" target="_blank">Scalable Simulation Infrastructure for Autonomous Driving <i class="fab fa-github"></i></a>
+                </h3>
+                <p class="item-meta">University of Michigan | Advisor: Prof. Henry Liu | May 2025 - Aug. 2025</p>
+                <p class="item-desc">Engineered a scalable simulation pipeline on Terasim to generate adversarial construction zone scenarios, with automated data conversion to Waymo Open Dataset format.</p>
+                <div class="item-demos">
+                    <img src="assets/research-sim-1.gif" alt="Simulation Demo 1">
+                    <img src="assets/research-sim-2.gif" alt="Simulation Demo 2">
                 </div>
             </div>
         </section>
 
         <!-- Projects Section -->
         <section id="projects" class="section">
-            <h2 class="section-title">Selected Projects</h2>
+            <h2 class="section-title">Projects</h2>
 
-            <div class="research-item">
-                <div class="research-header">
-                    <h3>Deep Learning for Visual Classification & Representation</h3>
-                    <span class="date">Course Project: Computer Vision</span>
-                </div>
-                <div class="research-content">
-                    <div class="research-text">
-                        <ul>
-                            <li>Built a Vision Transformer (ViT) in PyTorch by manually implementing patch embeddings, learnable CLS tokens, and Multi-head Self-Attention.</li>
-                            <li>Executed a Transfer Learning pipeline by pre-training an eight-class CNN on source domain data and fine-tuning for binary target task.</li>
-                            <li>Achieved a test AUROC of 0.87 through data augmentation and rigorous hyperparameter tuning.</li>
-                        </ul>
-                    </div>
+            <div class="item">
+                <h3 class="item-title">
+                    <a href="https://github.com/dmmsjtu-umich" target="_blank">Deep Learning for Visual Classification <i class="fab fa-github"></i></a>
+                </h3>
+                <p class="item-meta">Course Project: Computer Vision</p>
+                <p class="item-desc">Built a Vision Transformer (ViT) and Transfer Learning pipeline in PyTorch. Achieved 0.87 AUROC through data augmentation and hyperparameter tuning.</p>
+                <div class="item-demos">
+                    <img src="assets/project-vit-1.gif" alt="ViT Demo 1">
+                    <img src="assets/project-vit-2.gif" alt="ViT Demo 2">
                 </div>
             </div>
 
-            <div class="research-item">
-                <div class="research-header">
-                    <h3>Neural ODE for Planar Pushing Dynamics</h3>
-                    <span class="date">Course Project: Robot Learning</span>
-                </div>
-                <div class="research-content">
-                    <div class="research-text">
-                        <ul>
-                            <li>Developed a continuous-time dynamics model using Neural ODEs to capture the complex physics of robot pushing.</li>
-                            <li>Achieved a 38% decrease in prediction errors by designing a physics-aware SE(2) loss function and finetuning differential equation solvers.</li>
-                            <li>Integrated with a Model Predictive Path Integral (MPPI) controller for a Franka Panda robot to execute precise pushing tasks.</li>
-                        </ul>
-                    </div>
+            <div class="item">
+                <h3 class="item-title">
+                    <a href="https://github.com/dmmsjtu-umich" target="_blank">Neural ODE for Planar Pushing Dynamics <i class="fab fa-github"></i></a>
+                </h3>
+                <p class="item-meta">Course Project: Robot Learning</p>
+                <p class="item-desc">Developed continuous-time dynamics model using Neural ODEs for robot pushing. Achieved 38% error reduction with physics-aware SE(2) loss function.</p>
+                <div class="item-demos">
+                    <img src="assets/project-ode-1.gif" alt="Neural ODE Demo 1">
+                    <img src="assets/project-ode-2.gif" alt="Neural ODE Demo 2">
                 </div>
             </div>
 
-            <div class="research-item">
-                <div class="research-header">
-                    <h3>Large Language Model Implementation & Training (GPT)</h3>
-                    <span class="date">Course Project: Natural Language Processing</span>
-                </div>
-                <div class="research-content">
-                    <div class="research-text">
-                        <ul>
-                            <li>Built a modern decoder-only Transformer in PyTorch with Rotary Position Embeddings (RoPE), SwiGLU activation, and RMSNorm (LLaMA-style architecture).</li>
-                            <li>Pre-trained on 1B tokens of the FineWeb-Edu dataset using Mixed Precision (BF16), Gradient Accumulation, and torch.compile.</li>
-                            <li>Implemented Supervised Fine-Tuning (SFT) pipeline with selective loss masking on the SmolTalk corpus.</li>
-                        </ul>
-                    </div>
+            <div class="item">
+                <h3 class="item-title">
+                    <a href="https://github.com/dmmsjtu-umich" target="_blank">LLM Implementation & Training (GPT) <i class="fab fa-github"></i></a>
+                </h3>
+                <p class="item-meta">Course Project: Natural Language Processing</p>
+                <p class="item-desc">Built LLaMA-style Transformer from scratch with RoPE, SwiGLU, and RMSNorm. Pre-trained on 1B tokens with mixed precision training.</p>
+                <div class="item-demos">
+                    <img src="assets/project-llm-1.gif" alt="LLM Demo">
                 </div>
             </div>
-        </section>
-
-        <!-- Awards Section -->
-        <section id="awards" class="section">
-            <h2 class="section-title">Awards & Honors</h2>
-
-            <ul class="awards-list">
-                <li><strong>Honorable Mention</strong>, Interdisciplinary Contest in Modeling (ICM), May 2023</li>
-                <li><strong>First Prize</strong>, 13th SJTU Liming Cup Mechanical Innovation Competition for Freshmen, May 2023</li>
-                <li><strong>Outstanding Volunteer</strong>, Miyuan Volunteer Team, March 2023</li>
-            </ul>
         </section>
 
         <!-- Skills Section -->
         <section id="skills" class="section">
             <h2 class="section-title">Skills</h2>
 
-            <div class="skills-container">
-                <div class="skill-category">
-                    <h4>Programming Languages</h4>
+            <div class="skills-grid">
+                <div class="skill-item">
+                    <h4>Programming</h4>
                     <p>Python, C++, C, MATLAB, SQL, LaTeX</p>
                 </div>
-                <div class="skill-category">
-                    <h4>Deep Learning & AI</h4>
-                    <p>PyTorch, OpenAI Gym, NumPy, SciPy, Pandas, OpenCV, Transformers</p>
+                <div class="skill-item">
+                    <h4>Deep Learning</h4>
+                    <p>PyTorch, OpenAI Gym, NumPy, SciPy, Pandas, OpenCV</p>
                 </div>
-                <div class="skill-category">
-                    <h4>Robotics & Simulation</h4>
+                <div class="skill-item">
+                    <h4>Robotics</h4>
                     <p>PyBullet, Gazebo, SUMO, Terasim, SolidWorks, ROS</p>
                 </div>
-                <div class="skill-category">
-                    <h4>Tools & Platforms</h4>
-                    <p>Git, Linux (Ubuntu), Docker, Waymo Open Dataset</p>
+                <div class="skill-item">
+                    <h4>Tools</h4>
+                    <p>Git, Linux, Docker, Waymo Open Dataset</p>
                 </div>
             </div>
         </section>
 
         <!-- Footer -->
         <footer class="footer">
-            <p>Last updated: January 2026</p>
-            <p>&copy; 2026 Miaomiao Dai. All rights reserved.</p>
+            <p>&copy; 2026 Miaomiao Dai</p>
         </footer>
-        </main>
     </div>
 
     <script src="script.js"></script>
