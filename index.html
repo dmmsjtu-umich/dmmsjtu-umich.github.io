@@ -38,6 +38,7 @@
 
                     <div class="links">
                         <a href="assets/CV.pdf" class="btn" target="_blank"><i class="fas fa-file-alt"></i> CV / Resume</a>
+                        <a href="assets/portfolio.pdf" class="btn" target="_blank"><i class="fas fa-folder-open"></i> Portfolio</a>
                         <a href="https://github.com/dmmsjtu-umich" class="btn" target="_blank"><i class="fab fa-github"></i> GitHub</a>
                     </div>
                 </div>
@@ -76,25 +77,25 @@
 
             <div class="item">
                 <h3 class="item-title">
-                    <a href="https://github.com/dmmsjtu-umich" target="_blank">Fast Differential Dynamic Programming for Time-Optimal Trajectory Planning <i class="fab fa-github"></i></a>
+                    <a href="https://github.com/dmmsjtu-umich/time-opt-ilqr" target="_blank">Fast Differential Dynamic Programming for Time-Optimal Trajectory Planning <i class="fab fa-github"></i></a>
                 </h3>
                 <p class="item-meta">Shanghai Jiao Tong University | Advisor: Prof. Zhongqiang Ren | July 2025 - Present</p>
-                <p class="item-desc">Developed a novel control framework that automatically determines the optimal time horizon T*, reducing computational complexity from O(N²n³) to O(Nn³) and outperforming prior SOTA methods.</p>
+                <p class="item-desc">Developed an LFT-based propagator that enables reuse of backward pass computations for time-optimal trajectory planning. Reduced computational complexity from O(N²n³) to O(Nn³) with up to 43× speedup on benchmark systems including 12-DOF Quadrotor.</p>
                 <div class="item-demos">
-                    <img src="assets/research-ddp-1.png" alt="DDP Demo 1">
-                    <img src="assets/research-ddp-2.png" alt="DDP Demo 2">
+                    <img src="assets/research-ddp-1.png" alt="Cost Landscape Comparison">
+                    <img src="assets/research-ddp-2.png" alt="Runtime Breakdown">
                 </div>
             </div>
 
             <div class="item">
                 <h3 class="item-title">
-                    <a href="https://github.com/dmmsjtu-umich" target="_blank">Scalable Simulation Infrastructure for Autonomous Driving <i class="fab fa-github"></i></a>
+                    <a href="https://github.com/dmmsjtu-umich/Terasim_Urban_Construction_Zone" target="_blank">Scalable Simulation Infrastructure for Autonomous Driving <i class="fab fa-github"></i></a>
                 </h3>
-                <p class="item-meta">University of Michigan | Advisor: Prof. Henry Liu | May 2025 - Aug. 2025</p>
-                <p class="item-desc">Engineered a scalable simulation pipeline on Terasim to generate adversarial construction zone scenarios, with automated data conversion to Waymo Open Dataset format.</p>
+                <p class="item-meta">University of Michigan Mcity | Advisor: Prof. Henry Liu | May 2025 - Aug. 2025</p>
+                <p class="item-desc">Designed a scalable simulation pipeline that automatically generates MUTCD-compliant construction zone scenarios for AV testing. Integrated TomTom Traffic API for real-world data from 27+ US cities with automated conversion to Waymo Open Dataset format.</p>
                 <div class="item-demos">
-                    <img src="assets/research-sim-1.gif" alt="Simulation Demo 1">
-                    <img src="assets/research-sim-2.gif" alt="Simulation Demo 2">
+                    <img src="assets/research-sim-1.png" alt="Construction Zone Generation">
+                    <img src="assets/research-sim-2.png" alt="TomTom API Integration">
                 </div>
             </div>
         </section>
@@ -105,36 +106,24 @@
 
             <div class="item">
                 <h3 class="item-title">
-                    <a href="https://github.com/dmmsjtu-umich" target="_blank">Deep Learning for Visual Classification <i class="fab fa-github"></i></a>
+                    <a href="https://github.com/dmmsjtu-umich/SimpleNet_Extension" target="_blank">Adversarial Training for Anomaly Detection <i class="fab fa-github"></i></a>
                 </h3>
                 <p class="item-meta">Course Project: Computer Vision</p>
-                <p class="item-desc">Built a Vision Transformer (ViT) and Transfer Learning pipeline in PyTorch. Achieved 0.87 AUROC through data augmentation and hyperparameter tuning.</p>
+                <p class="item-desc">Extended SimpleNet (CVPR 2023) with a mixed adversarial noise training strategy for industrial defect detection. Achieved +3.6% P-AUROC improvement (87.8% → 91.4%) on MVTec AD with better pixel-level anomaly localization.</p>
                 <div class="item-demos">
-                    <img src="assets/project-vit-1.gif" alt="ViT Demo 1">
-                    <img src="assets/project-vit-2.gif" alt="ViT Demo 2">
+                    <img src="assets/project-simplenet-1.png" alt="Architecture Overview">
+                    <img src="assets/project-simplenet-2.png" alt="Performance Comparison">
                 </div>
             </div>
 
             <div class="item">
                 <h3 class="item-title">
-                    <a href="https://github.com/dmmsjtu-umich" target="_blank">Neural ODE for Planar Pushing Dynamics <i class="fab fa-github"></i></a>
+                    <a href="https://github.com/dmmsjtu-umich/Neural-ODE" target="_blank">Neural ODE for Planar Pushing Dynamics <i class="fab fa-github"></i></a>
                 </h3>
                 <p class="item-meta">Course Project: Robot Learning</p>
-                <p class="item-desc">Developed continuous-time dynamics model using Neural ODEs for robot pushing. Achieved 38% error reduction with physics-aware SE(2) loss function.</p>
+                <p class="item-desc">Developed continuous-time dynamics model using Neural ODEs for robotic planar pushing. Achieved 38% lower validation loss than baseline ResNet with physics-aware SE(2) loss function. Validated effectiveness through MPPI controller integration.</p>
                 <div class="item-demos">
-                    <img src="assets/project-ode-1.gif" alt="Neural ODE Demo 1">
-                    <img src="assets/project-ode-2.gif" alt="Neural ODE Demo 2">
-                </div>
-            </div>
-
-            <div class="item">
-                <h3 class="item-title">
-                    <a href="https://github.com/dmmsjtu-umich" target="_blank">LLM Implementation & Training (GPT) <i class="fab fa-github"></i></a>
-                </h3>
-                <p class="item-meta">Course Project: Natural Language Processing</p>
-                <p class="item-desc">Built LLaMA-style Transformer from scratch with RoPE, SwiGLU, and RMSNorm. Pre-trained on 1B tokens with mixed precision training.</p>
-                <div class="item-demos">
-                    <img src="assets/project-llm-1.gif" alt="LLM Demo">
+                    <img src="assets/project-ode-demo.gif" alt="Planar Pushing Demo">
                 </div>
             </div>
         </section>
