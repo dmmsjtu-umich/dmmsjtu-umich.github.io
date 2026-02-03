@@ -1,0 +1,109 @@
+
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=0.93\linewidth]{source/figures/exp1_all.png}
+    \caption{Experimental results. 
+    % \vspace{-5mm}
+    (a) Comparison of runtime in log scale. Error bars indicate variability across trials. 
+    % Both ours and Baseline-2 (OP) run faster than Baseline-1 (BF) and Baseline-3 (NLP). 
+    (b) Comparison of speedup relative to Baseline-1 (BF) over the four systems. This figure shows the same results in (a) in a different way. 
+    (c) Success rates of different algorithms. 
+    % While all methods achieve high success rates on linear systems (Double Integrator and Segway), ours and Baseline-1 (BF) achieves higher success rates than Baseline-2 (OP) and Baseline-3 (NLP). 
+    (d) Comparison of solution cost increases relative to Baseline-1 (BF). Our method finds solutions of the better quality than OP and NLP, while enjoying fast running speed.
+    % Baseline-2 (OP) often finds more expensive solutions.
+    }
+    \label{fig:exp1_all_combined}
+    \vspace{-3mm}
+\end{figure*}
+
+
+We compare our \abbrAlgg against several baselines on four systems including linear and nonlinear dynamics: Double Integrator, Segway Balance, Cartpole Swing-Up, and a 12-DOF Quadrotor with 25 cases each.
+Here, Double Integrator and Segway (linearized about the equilibrium) have two linear dynamics, while Cartpole and Quadrotor have nonlinear dynamics.
+We use three baseline methods for comparison.
+\begin{enumerate}
+    % \item \textbf{Ours (\abbrAlgg Algorithm):} The proposed method using the Augmented State and Horizon Selection via \abbrAlg Algorithm.
+    \item {Baseline-1 (BruteForce, BF)} evaluates all horizons via backward Riccati recursions to select the horizon.
+    \item {Baseline-2 (OnePass, OP) \cite{stachowicz2021ohmp}} uses time-invariant LQR to approximate nonlinear systems.
+    \item {Baseline-3 (NLP)} includes the time horizon as a decision variable, uses time-scaled transcription, and solves the resulting NLP using IPOPT~\cite{wachter2002ipopt}.
+\end{enumerate}
+
+
+\subsection{Experiment 1: Overall Performance}
+
+\paragraph{Runtime and Speedup}
+Fig.~\ref{fig:exp1_all_combined}(a) reports the runtime on log scale, and Fig.~\ref{fig:exp1_all_combined}(b)
+shows the corresponding speedup relative to Baseline-1 (BF).
+For all systems, our method consistently runs faster than Baseline-1 (BF): \textbf{$\sim 9\times$} faster on Double Integrator, \textbf{$\sim 20\times$} faster on Segway Balance,
+\textbf{$\sim 5\times$} faster on Quadrotor, and \textbf{$\sim 40\times$} faster on Cartpole.
+Baseline-2 (OP) can be even faster on some tasks (e.g. Cartpole and Segway), but at the cost of worse solution quality as explained later.
+Baseline-3 (NLP) usually has a similar runtime to Baseline-1 (BF), yet runs slower on some systems, which indicates the expensive computation of solving a large nonlinear program.
+
+\paragraph{Success Rates}
+Fig.~\ref{fig:exp1_all_combined}(c) reports success rates, which is the percentage of trials where the cost function converges and the system's terminal state is within a small error threshold from the goal state, i.e., $\|x_{T^*} - x_g\| \leq 0.5$.
+All methods achieve high success rates on Double Integrator and Segway, which are linear systems.
+% indicating that these tasks are well-conditioned under our initialization and cost setup.
+For Quadrotor, all methods remain above $90\%$ success rates, suggesting that the task is feasible for a wide range of horizons and that local optimization is relatively stable once a reasonable rollout is found.
+Cartpole here is the most challenging case, and our method and the Baseline-1 (BF) succeed for most
+trials, while Baseline-2 (OP) exhibits much lower success rates, due to the mis-selection of horizon caused by the time-invariant LQR approximation of nonlinear systems.
+Baseline-3 (NLP) has success rates higher than OP yet lower than Ours and Baseline-1 (BF), as the underlying NLP can get trapped in local minima.
+
+
+
+\paragraph{Solution Quality}
+Fig.~\ref{fig:exp1_all_combined}(d) reports the normalized cost increase ratio relative to the solution costs found by Baseline-1 (BF).
+Here, Baseline-1 (BF), Baseline-2 (OP) and our methods all share the same objective function, while Baseline-3 (NLP) has slightly different objective functions due to the different formulation, and we thus remove it from the figure for clarity.
+% computed under the same iLQR objective used by Ours and Baseline-2.
+As shown in Fig.~\ref{fig:exp1_all_combined}(d), our method always finds almost the same solution costs as Baseline-1 (BF) for all systems, since the cost increases are 0\%.
+It indicates that the fast horizon querying in our method does not compromise the final solution quality.
+In contrast, Baseline-2 (OP) often finds more expensive solutions for those nonlinear systems, due to the approximation using time-invariant LQR.
+% ng horizon evaluation with a single backward pass can miss the best horizon when local models vary strongly over time and across iterations.
+% We do not include Baseline-3 (Direct-NLP, free $T$) in this cost comparison because it optimizes a different objective. Its discretized cost and constraints are not identical to the
+% Riccati/DDP-style iLQR objective used by the other methods, so we omit it for a fair cost-optimality comparison.
+
+
+\subsection{Experiment 2: Case Study on Quadrotor}
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\linewidth]{source/figures/Quadrotor_Hover_cost_curve.png}
+    % \vspace{-5mm}
+    \caption{Cost values for various horizons for the hovering task of Quadrotor. Our method and Baseline-1 (BF) both finds an optimal horizon $T^*=32$ whose corresponding optimal costs are $J_{32}^{\text{ours}}\approx 484.79, J_{32}^{\text{BF}}\approx 484.80$, while Baseline-2 (OP) converges to a different local minimum with a longer horizon ($T\approx 74$) and $5.97\%$ higher cost ($J_{74}^{\text{OP}}\approx 513.75$).}
+    \label{fig:exp2_quad_costcurve}
+    % \vspace{-5mm}
+\end{figure}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\linewidth]{source/figures/Quadrotor_Hover_timing.png}
+    % \vspace{-5mm}
+    \caption{Runtime breakdown for the hovering task of Quadrotor. Ours and Baseline-2 (OP) run faster than Baseline-1 (BF) as they bypass the expensive computation for horizon selection.}
+    \label{fig:exp2_quad_timing}
+    % \vspace{-5mm}
+\end{figure}
+
+
+We then look into a hovering task for Quadrotor.
+We compare the solution costs and breakdown the runtime to explain why ours is as accurate as BF and as fast as OP.
+% to illustrate how horizon selection affects both optimality and runtime.
+
+\paragraph{Horizon optimality}
+During the iterations of Alg.~\ref{alg:time-optimal-ilqr}, both ours and Baseline-1 (BF) need to iteratively select a horizon $T^*$ and solve.
+Fig.~\ref{fig:exp2_quad_costcurve} shows the cost $J$ for all possible horizons during the iteration.
+Baseline-2 (OP) has a different computational process and Fig.~\ref{fig:exp2_quad_costcurve} only shows the costs $J$ of horizons in its last iteration.
+
+We observe that, our \abbrAlg and Baseline-1 (BF) have almost the same cost functions values $J$ for the entire horizon range, and select the same optimal horizon $T^*=32$ whose corresponding optimal costs are $J_{32}^{\text{ours}}\approx 484.79, J_{32}^{\text{BF}}\approx 484.80$.
+In contrast, Baseline-2 (OP) converges to a local minimum and selects a longer horizon ($T\approx 74$) with higher cost ($J_{74}^{\text{OP}}\approx 513.75$), which is about {5.97\%} higher than the cost returned by Baseline-1 (BF).
+% This case highlights that, on strongly nonlinear and coupled dynamics such as a 12-DOF quadrotor, accurate horizon evaluation is critical for avoiding suboptimal horizon choices.
+
+\paragraph{Runtime breakdown}
+We then look at the runtime breakdown of the algorithms.
+Fig.~\ref{fig:exp2_quad_timing} explains why our algorithm runs faster.
+% the computational savings come from.
+Baseline-1 (BF) spends most of the runtime in selecting the horizon, since it must evaluate many candidate
+horizons via repeated backward Riccati recursions.
+Baseline-2 (OP) runs fast because it avoids the exhaustive horizon selection.
+Similarly, our method can also bypass this expensive selection by using \abbrAlg for horizon selection. 
+% It features a lightweight computation, shifting the runtime bottleneck to the shared
+% Linearize step that all methods must perform.
+% , but the cost curve in Fig.~\ref{fig:exp2_quad_costcurve} shows that this speed can come at the expense of selecting a non-optimal horizon.
+% Overall, this case study demonstrates that \abbrAlgg Algorithm achieves near brute-force horizon optimality while substantially
+% reducing the horizon-selection cost.

@@ -1,0 +1,63 @@
+
+Horizon/time-optimal planning naturally arises in various robotic tasks.
+For quadrotors, shorter horizon enables aggressive maneuvers and racing~\cite{mellinger2011minimumsnap,foehn2020alphapilot}.
+For legged locomotion, optimization-based planners frequently re-solve constrained OC problems online to generate dynamically feasible motions, where the horizon length and replanning rate strongly affect robustness and responsiveness~\cite{kuindersma2016atlas}.
+For information gathering, the horizon governs how far the robot plans ahead when trading immediate motion against long-term information gain~\cite{hollinger2013rig,time-otpimal-ergodic-search}.
+Among these tasks, horizon/time choice is often embedded into the model predictive control loop, and fast horizon-optimal planning can be crucial for high-rate replanning~\cite{tassa2008rhdp,tassa2012synthesis}.
+
+Horizon-optimal planning can be formulated as a nonlinear program (NLP) with the horizon included as a continuous decision variable~\cite{wang2022geometrically,dong2025time}.
+% In practice, a common approach is direct transcription: discretize the dynamics and solve the resulting nonlinear program~\cite{betts1998survey,rao2009survey}.
+The time-scaling approach fixes the horizon length $N$ and optimizes the length of time steps~\cite{rao2009survey,foehn2021time}.
+These NLPs can incorporate various constraints, such as obstacle avoidance, and can be solved by large-scale interior-point methods such as IPOPT~\cite{wachter2002ipopt}.
+However, the resulting nonconvex NLPs can be sensitive to initialization and discretization, and is often computationally heavy, which requires domain-specific fine-tuning to achieve high-frequency ``real-time'' computation.
+
+Another strategy to address horizon-optimal planning is to extend well-known OC algorithms such as LQR and DDP to their horizon-optimal counterparts.
+Early work analyzes both continuous-time and discrete-time horizon-optimal LQR and derives the optimality conditions in theory~\cite{verriest1991lqmt,elalami1998dlqmt}.
+A recent work~\cite{stachowicz2021ohmp} observes that horizon-optimal LQR, with stationary dynamics and costs, can be solved within a single backward pass by shifting horizons and reusing value functions, which leads to an efficient algorithm, and was extended with DDP for nonlinear systems.
+Other research~\cite{de2019free} combines LQR with bi-level optimization to shorten the horizon.
+
+% However, for trajectory optimization in general, linearized dynamics are time-varying, which motivates this work.
+% This motivates methods that remain valid for time-varying Riccati/DDP backward recursions and can query many candidate horizons without rerunning a full backward pass each time, which is the focus of this work.
+
+% These works clarify the role of the terminal boundary condition in Riccati recursions, but they do not directly provide a general solution for time-varying or nonlinear system.
+
+% For nonlinear robotics, DDP and iLQR compute locally optimal policies via a backward recursion on quadratic value-function approximations followed by a forward rollout~\cite{jacobson1970ddp,murray1984ddpnewton,li2004ilqr}, with MPC-style variants and constraint-handling extensions improving practicality~\cite{tassa2008rhdp,tassa2014clddp,xie2017ddp_constraints}.
+% Several works further consider horizon selection while preserving this Riccati/DDP structure.
+
+
+\begin{comment}
+--------------
+
+As discussed in the introduction, horizon/time-optimal optimal control (OC) requires solving for a trajectory while also deciding the maneuver duration.
+Prior work typically addresses this coupling in two ways: (i) optimizing time directly together with controls in a single nonlinear program (NLP), or (ii) keeping a structured backward--forward solver (Riccati/DDP-style) and making horizon search efficient.
+
+
+\subsection*{A. Free-final-time and direct time-scaling formulations}
+Minimum-time and free-final-time OC are classically formulated in continuous time, where necessary conditions motivate optimizing the final time along with the control policy~\cite{pontryagin1962mtp,brysonho1975}.
+In practice, a common approach is direct transcription: discretize the dynamics and solve the resulting nonlinear program~\cite{betts1998survey,rao2009survey}.
+A standard free-final-time strategy is time-scaling: fix horizon length $N$ and optimize the total time (equivalently the time step $\Delta t$) together with the control sequence~\cite{betts1998survey,rao2009survey}.
+These formulations are appealing because they can incorporate rich constraints (state limits, obstacle constraints, path constraints) without changing the overall NLP template, and can be solved by large-scale interior-point methods such as IPOPT~\cite{wachter2002ipopt}.
+However, the resulting nonconvex NLPs can be sensitive to initialization and discretization, and often require substantial computation, which limits their use in high-frequency real-time settings.
+
+\subsection*{B. Structured LQ minimum-time results and Riccati/DDP-style horizon search}
+Minimum-time objectives under linear--quadratic (LQ) structure have been studied by explicitly trading horizon length against quadratic effort/terminal accuracy.
+Verriest and Lewis analyze a continuous-time LQ minimum-time formulation and connect the optimal final time to Riccati Recursion~\cite{verriest1991lqmt}, while El Alami \emph{et al.} study a discrete-time version with a terminal constraint and an explicit time penalty~\cite{elalami1998dlqmt}.
+These works clarify the role of the terminal boundary condition in Riccati recursions, but they do not directly provide a general solution for time-varying and nonlinear system.
+
+For nonlinear robotics, DDP and iLQR compute locally optimal policies via a backward recursion on quadratic value-function approximations followed by a forward rollout~\cite{jacobson1970ddp,murray1984ddpnewton,li2004ilqr}, with MPC-style variants and constraint-handling extensions improving practicality~\cite{tassa2008rhdp,tassa2014clddp,xie2017ddp_constraints}.
+Several works further consider horizon selection while preserving this Riccati/DDP structure.
+Most closely related to our setting, Stachowicz and Theodorou propose an optimal-horizon DDP/MPC method that reuses a single backward pass under stationary dynamics and costs via ``shift-horizon'' evaluation~\cite{stachowicz2021ohmp}.
+In general trajectory optimization, however, local models and costs become time-varying after linearization and quadratization, making the value function inherently time-dependent and limiting such reuse.
+This motivates methods that remain valid for time-varying Riccati/DDP backward recursions and can query many candidate horizons without rerunning a full backward pass each time, which is the focus of this work.
+
+\subsection*{C. Robotics applications}
+Horizon/time-optimal planning is central to robotics tasks that must reach a goal quickly while respecting dynamics, constraints, and limited actuation~\cite{pontryagin1962mtp,brysonho1975}.
+In quadrotor flight, shorter motion times tighten thrust and tilt constraints and change the feasibility margin, which directly affects aggressive maneuvers and racing performance~\cite{mellinger2011minimumsnap,foehn2020alphapilot}.
+Time allocation also matters in point-to-point navigation and MPC, where optimizing the traversal time while maintaining feasibility has been studied through time-parameterized trajectory representations~\cite{rosmann2015teb}.
+For legged locomotion, optimization-based planners frequently re-solve constrained OC problems online to generate dynamically feasible motions, where the horizon length and replanning rate strongly affect robustness and responsiveness~\cite{kuindersma2016atlas}.
+In multi-robot settings, collision avoidance and coordination can impose tight timing constraints and motivate fast replanning over short horizons~\cite{vandenberg2011orca}.
+Finally, in robotic information gathering, the horizon governs how far the robot plans ahead when trading immediate motion against long-term information gain~\cite{hollinger2013rig}.
+
+Across these applications, horizon/time choice is often embedded into an MPC loop, so reducing per-iteration cost and enabling computational reuse can be crucial for high-rate replanning~\cite{tassa2008rhdp,tassa2012synthesis}.
+
+\end{comment}

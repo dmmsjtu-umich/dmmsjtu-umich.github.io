@@ -1,0 +1,114 @@
+\documentclass[conference]{IEEEtran}
+\usepackage{times}
+\usepackage[numbers]{natbib}
+\usepackage{multicol}
+\usepackage[bookmarks=true]{hyperref}
+
+\newcommand{\T}{\mathsf{T}}
+\IEEEoverridecommandlockouts
+
+\usepackage{amsmath,amsfonts}
+\let\proof\relax
+\let\endproof\relax
+\usepackage{amsthm}
+\usepackage{amssymb}
+
+\usepackage[ruled,vlined]{algorithm2e}
+\usepackage{array}
+\usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
+\usepackage{textcomp}
+\usepackage{stfloats}
+\usepackage{url}
+\usepackage{verbatim}
+\usepackage{graphicx}
+\hyphenation{op-tical net-works semi-conduc-tor IEEE-Xplore}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows, positioning, calc, shapes.symbols}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{lscape}
+\usepackage{tabularx}
+\usepackage{comment}
+\usepackage{color}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{xspace}
+
+\newtheorem{assumption}{Assumption}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{definition}{Definition}
+\newtheorem{corollary}{Corollary}
+\newtheorem{problem}{Problem}
+\newtheorem{remark}{Remark}
+
+\newcommand{\red}{\color{red}}
+\newcommand{\blue}{\color{blue}}
+\newcommand{\green}{\color{green}}
+
+\newcommand\abbrAl{HOP\xspace}
+\newcommand\abbrAlg{HOP-LQR\xspace}
+\newcommand\abbrAlgg{HOP-DDP\xspace}
+
+\pdfinfo{
+   /Author (Author Names Omitted)
+   /Title  (HOP: Fast Differential Dynamic Programming for Horizon-Optimal Trajectory Planning)
+   /Subject (Robotics)
+   /Keywords (Motion Planning; Optimal Control)
+}
+
+\begin{document}
+
+\title{HOP: Fast Differential Dynamic Programming for Horizon-Optimal Trajectory Planning}
+
+% \author{Author Names Omitted for Anonymous Review. Paper-ID 495}
+
+\author{Miaomiao Dai$^{1}$, Zhongqiang Ren$^{1\dagger}$%
+\thanks{$^{1}$Global College, Shanghai Jiao Tong University.}%
+\thanks{$\dagger$ Corresponding author. {\tt\footnotesize zhongqiang.ren@sjtu.edu.cn}.}
+}
+
+\maketitle
+
+\begin{abstract}
+    \input{abstract}
+\end{abstract}
+
+% \begin{IEEEkeywords}
+% Motion and path planning, multi-robot systems, path planning for multiple mobile robots or agents.
+% \end{IEEEkeywords}
+
+\graphicspath{{./figures/}}
+
+\section{Introduction}\label{milp:sec:intro}
+\input{intro}
+
+% \section{Related Work}\label{milp:sec:related}
+% \input{related}
+
+\section{Problem Description}\label{milp:sec:problem}
+\input{problem}
+
+\section{Preliminaries}\label{milp:sec:preli}
+\input{preli}
+
+\section{Optimal Horizon Time-Varying LQR}\label{milp:sec:method}
+\input{method}
+
+\section{Optimal Horizon iLQR and DDP}\label{milp:sec:method2}
+\input{method2}
+
+\section{Experimental Results}\label{milp:sec:result}
+\input{result}
+
+\section{Conclusion and Future Work}\label{milp:sec:conclude}
+\input{conclude}
+
+% \section*{Acknowledgments}
+% Acknowledgments omitted for anonymous review.
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\end{document}

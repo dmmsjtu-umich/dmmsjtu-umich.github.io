@@ -1,0 +1,98 @@
+
+Optimal Control (OC) problems seek a dynamically feasible trajectory that minimizes a cost functional defined along the trajectory, which is of fundamental importance in robotics, and is the basis for numerous research topics such as agile flight of drones~\cite{wang2022geometrically,foehn2021time}, dynamic balancing of legged robots~\cite{kuindersma2016atlas}, trajectory planning for multiple robots~\cite{2025_RAL_CP_MILP} or information search~\cite{dong2025time}.
+Many famous OC approaches, such as Linear Quadratic Regulator (LQR)~\cite{andersonmoore1990lqr}, iterative LQR (iLQR)~\cite{li2004ilqr}, and differential dynamic programming (DDP)~\cite{jacobson1970ddp}, often assume a fixed planning horizon, which limits their usage especially in applications such as drone racing~\cite{wang2022geometrically,foehn2021time}, where the horizon itself is part of the objectives to be minimized.
+
+To bypass fixed planning horizons, horizon-optimal (or time-optimal) OC was studied and existing research can be roughly classified into two categories.
+The first class of methods includes the horizon itself as a decision variable and formulates the problem as a nonlinear program~\cite{wang2022geometrically,foehn2021time, betts1998survey,rao2009survey}.
+While being general to handle a variety of systems and tasks, this class of methods often suffers from local minima and can be computationally expensive.
+The second class of methods discretizes the horizon into time steps, and seeks to extend the classic OC methods, such as LQR and DDP, to find an optimal number of time steps while optimizing the trajectories~\cite{stachowicz2021ohmp,verriest1991lqmt,elalami1998dlqmt,de2019free}.
+While enjoying theoretical properties (such as solution optimality guarantees like LQR) and being computationally efficient, this class of methods is currently limited to only a few special cases that limits their usage.
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\linewidth]{header.png}
+    \vspace{-6mm}
+    \caption{For a quadrotor dynamics with 12 degrees of freedom, our \abbrAlgg finds the best solution trajectory with horizon $T^*=26$ in $2.9$ seconds while the DDP based on time-invariant LQR ~\cite{stachowicz2021ohmp} and NLP converges to local minima $T^*=48,30$ in $3.8$ and $71.8$ seconds respectively. 
+    % approximates using 
+    % We compare \abbrAl (Ours) with two baselines: 
+    % NLP, which treats the horizon as a variable in a nonlinear program; and
+    % OP, the {one-pass/shift-horizon} baseline that reuses a single backward pass ~\cite{stachowicz2021ohmp}.
+    % In this example, \abbrAl get the minimal cost while being faster, whereas OP selects a longer horizon and gets stuck in a worse local minimum; NLP is much slower.
+    }
+    \vspace{-4mm}
+    \label{fig:header}
+\end{figure}
+
+This paper is interested in the second class of methods, and develops new fast algorithms for horizon-optimal OC.
+Of close relevance to this paper, prior work~\cite{stachowicz2021ohmp} observes that: when solving LQR problem with Riccati recursion backwards from the end of the horizon to the starting time, as long as the dynamics and costs are stationary (i.e., time-invariant), ``shifting the horizon'' does not affect the value functions which allows reusing the value functions to efficiently solve the horizon-optimal LQR problem.
+Based on this result, prior work~\cite{stachowicz2021ohmp} further develops iLQR/DDP-like algorithms for nonlinear cases.
+% However, this idea of shifting the horizon is limited to stationary dynamics and costs.
+% which, in other words, can only handle time-invariant LQR problems.
+However, for non-stationary dynamics or costs, the value functions are time-varying and thus cannot be reused any more, and this idea of shifting the horizon fails.
+This also limits the resulting iLQR/DDP, since linearizing the nonlinear dynamics along a trajectory at different times or positions can naturally lead to time-varying dynamics.
+% To make matters worse, the idea of shifting the horizon cannot be generalized to time-varying systems.
+
+To address this challenge and bypass the assumption on stationary dynamics and costs, this paper develops a new approach \abbrAl (Horizon-Optimal Planning). 
+The key idea in \abbrAl is based on an observation that, the Riccati recursion can be reformulated into a form of Linear Fractional Transformation (LFT), which enjoys the structure that enables efficient computation by reusing a new form of value functions during the backwards pass, even for non-stationary dynamics and costs.
+% This structure decouples the backward recursion from the specific terminal time $N$, allowing us to query the optimal cost for any candidate horizon using the same pre-computed propagator sequence. 
+Based on this idea, we develop \abbrAlg that can solve Horizon-Optimal Time-Varying LQR problem to optimality, and we show that its runtime complexity is same as a regular Riccati recursion for the basic LQR problem.
+Based on \abbrAlg, we further develop \abbrAlgg by introducing an augmented state space formulation, which allows solving horizon-optimal OC problems with general nonlinear dynamics and non-quadratic costs efficiently.
+% To handle non-stationary dynamics and costs, a naive approach is to run $N$ Riccati recursion (with $N$ being the largest possible horizon), one for each possible horizon, which leads to a $O(N^2n^3)$ complexity 
+
+We compare our \abbrAl against several baselines on different dynamic systems.
+Experimental results show that, our \abbrAl always finds the same optimal solution as a naive brute force baseline method, while running up to 40 times faster, for both linear and nonlinear systems.
+In comparison to the shift horizon baseline method~\cite{stachowicz2021ohmp}, while this baseline has similar runtime as ours, this baseline gets stuck in worse local minima for almost all instances when the dynamics is nonlinear, while our \abbrAl and the brute force baseline always find a better local minima with up to 7\% cheaper costs.
+
+% our \abbrAl has similar runtime while finding up to 7\% cheaper solutions.
+
+% Results show that, our approach always finds the same optimal solution as a naive brute force baseline method, while running up to 40 times faster.
+% In comparison to the 
+
+
+\begin{comment}
+----------------------------------------
+
+Our approach builds on the observation that the Riccati difference equation can be viewed as a Linear Fractional Transformation (LFT). By reformulating the backward pass in information form, we construct a "propagator" that allows us to compose the inverse value functions incrementally. This structure decouples the backward recursion from the specific terminal time $T$, allowing us to query the optimal cost for \textit{any} candidate horizon using the same pre-computed propagator sequence. 
+Furthermore, to apply this logic to iLQR, we introduce an augmented state space formulation that absorbs the time-varying affine linearization terms. This unifies the treatment of linear and nonlinear problems, allowing the propagator to compute the \textit{exact} LQR cost for all horizons in a single $\mathcal{O}(N)$ pass.
+ 
+The main contributions of this paper are:
+\begin{enumerate}
+    \item \textbf{Propagator-based Horizon Selection:} We develop an LFT-based solver that enables the reuse of backward pass computations, reducing the complexity of horizon selection from $\mathcal{O}(N^2n^3)$ to $\mathcal{O}(Nn^3)$.
+    \item \textbf{Augmented State Formulation:} We propose a state augmentation technique that embeds affine linearization terms into a homogeneous coordinate system, extending the efficient propagator method to general nonlinear iLQR problems.
+    \item \textbf{Performance and Robustness:} We validate our algorithm on four benchmark systems, including a 12-DOF Quadrotor. Experimental results show that our method achieves speedups of up to $43\times$ compared to brute-force search while guaranteeing global optimality with respect to the linearized model. 
+\end{enumerate}
+
+
+
+------------------------------------------
+
+
+Existing approaches to this problem generally fall into two categories: continuous-time relaxations and discrete search. 
+Relaxation methods treat the final time as a continuous decision variable, typically by scaling the system dynamics. However, this often introduces non-convexity into the optimization landscape, leading to poor convergence.
+Discrete search methods, on the other hand, treat $T$ as an integer parameter. A naive "brute-force" strategy involves evaluating every candidate horizon $T \in [T_{min}, T_{max}]$. 
+
+
+
+------------------
+
+Time-optimal trajectory planning—generating motions that complete a task in the minimum possible time—is a fundamental requirement for agile robotic systems. From autonomous drone racing to emergency collision avoidance in self-driving cars, the ability to jointly optimize the control sequence and the total maneuver duration $T$ is critical for pushing physical limits. 
+While Differential Dynamic Programming (DDP) and its variant, the iterative Linear Quadratic Regulator (iLQR), have become standard tools for high-dimensional trajectory optimization, they typically assume a fixed planning horizon. Extending these methods to time-optimal control introduces a discrete-continuous optimization challenge: the solver must determine the optimal integer horizon $T^*$ alongside the continuous control inputs.
+
+Existing approaches to this problem generally fall into two categories: continuous-time relaxations and discrete search. 
+Relaxation methods treat the final time as a continuous decision variable, typically by scaling the system dynamics. However, this often introduces non-convexity into the optimization landscape, leading to poor convergence.
+Discrete search methods, on the other hand, treat $T$ as an integer parameter. A naive "brute-force" strategy involves evaluating every candidate horizon $T \in [T_{min}, T_{max}]$. 
+\textbf{A fundamental bottleneck in this approach lies in the structure of the standard Riccati recursion.} In the LQR backward pass, the Value Function $V_k$ is computed recursively starting from a terminal cost anchored at the final time step $T$ (i.e., $P_T = Q_T$). Consequently, changing the horizon from $T$ to $T+1$ shifts the boundary condition, invalidating the entire sequence of previously computed Cost-to-Go matrices (P). This structural dependency prevents the reuse of historical computations across different horizons, forcing the solver to restart the backward pass from scratch for each candidate $T$, resulting in a prohibitive $\mathcal{O}(N^2)$ complexity.
+
+To mitigate this computational burden, recent works such as the "One-Pass" method [1] have attempted to estimate costs for neighboring horizons by reusing the value function from a single nominal backward pass. While efficient for Linear Time-Invariant (LTI) systems where the dynamics do not shift with time, this approach fails for general trajectory optimization. In nonlinear systems, the local linearization ($A_k, B_k$) is time-varying; thus, reusing a fixed value function for different horizons introduces severe approximation errors, often leading to suboptimal horizon selection.
+
+In this work, we propose a method that enables \textbf{exact computational reuse} for time-varying systems and extends it to the iLQR framework. 
+Our approach builds on the observation that the Riccati difference equation can be viewed as a Linear Fractional Transformation (LFT). By reformulating the backward pass in information form, we construct a "propagator" that allows us to compose the inverse value functions incrementally. This structure decouples the backward recursion from the specific terminal time $T$, allowing us to query the optimal cost for \textit{any} candidate horizon using the same pre-computed propagator sequence. 
+Furthermore, to apply this logic to iLQR, we introduce an augmented state space formulation that absorbs the time-varying affine linearization terms. This unifies the treatment of linear and nonlinear problems, allowing the propagator to compute the \textit{exact} LQR cost for all horizons in a single $\mathcal{O}(N)$ pass.
+ 
+The main contributions of this paper are:
+\begin{enumerate}
+    \item \textbf{Propagator-based Horizon Selection:} We develop an LFT-based solver that enables the reuse of backward pass computations, reducing the complexity of horizon selection from $\mathcal{O}(N^2n^3)$ to $\mathcal{O}(Nn^3)$.
+    \item \textbf{Augmented State Formulation:} We propose a state augmentation technique that embeds affine linearization terms into a homogeneous coordinate system, extending the efficient propagator method to general nonlinear iLQR problems.
+    \item \textbf{Performance and Robustness:} We validate our algorithm on four benchmark systems, including a 12-DOF Quadrotor. Experimental results show that our method achieves speedups of up to $43\times$ compared to brute-force search while guaranteeing global optimality with respect to the linearized model. 
+\end{enumerate}
+
+\end{comment}

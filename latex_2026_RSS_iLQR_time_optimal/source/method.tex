@@ -1,0 +1,243 @@
+% \subsection{Method 1: Propagator-based Time-Optimal LQR via Linear Fractional Transformations}
+
+% We present a novel approach for time-optimal control of linear time-varying (LTV) systems that achieves $\mathcal{O}(Nn^3)$ complexity—matching a single Riccati backward pass—while evaluating costs for all possible arrival times.
+
+% \subsubsection{Key Insight and Motivation}
+
+
+
+
+
+
+% \subsection{Our Approach for solving time optimal TVLQR problems}\label{sec:method1}
+% To address the loss of reusability in time-varying systems, we shift from \emph{reusing values} to \emph{reusing mappings}.
+% In the time-invariant case, different horizons reuse the same Riccati update and only change which $P_{N-t}$ is read in $J_t$ (Fig.~\ref{fig:reuse_and_prop}(a)).
+% In the time-varying case, $g_k$ changes with $k$, so the \emph{values} $\{P_k\}$ are not reusable across horizons.
+
+To address this challenge, our key idea (Fig.~\ref{fig:alg_flow}) is to rewrite the map $g_k$ as a new linear fractional transformation (LFT) form $\tilde{g}_{0:k}$ (which is explained later), and some of the matrices that help compute $\tilde{g}_{0:k}$ can be reused.
+As a result, these matrices only need to be computed once for all possible horizons $k=1,2,\cdots,N$, as opposed to be repetitively computed for each possible horizon, which thus saves computational effort.
+
+\subsection{Linear Fractional Transformation Form}
+We first define necessary notations, and then rewrite the Riccati recursion into a new form of Linear Fractional Transformation (LFT) based on the inverse of cost-to-go matrices $P_k$.
+We prove that this LFT form is equivalent to the original Riccati recursion in Theorem~\ref{thm:single_step_lft}.
+Based on this result, we further derive a LFT form for the time-varying case of LQR in Theorem~\ref{thm:composed_lft}, which then leads to an efficient algorithm \abbrAlg for the time-varying HO-LQR problem as explained in the next subsection.
+
+Let $\tilde P_k := P_k^{-1}$ denote the inverse of the cost-to-go matrix $P_k$.
+Let $\tilde g_k$ denote the map from $\tilde P_{k+1}$ to $\tilde P_{k}$, i.e.,  $\tilde{P}_k = \tilde{g}_k(\tilde{P}_{k+1})$.
+Let notation $\tilde g_{0:k}=\tilde g_0\circ\cdots\circ\tilde g_k$ denote a \textit{composed map} that composes the maps $\tilde g_0,\tilde g_1,\cdots,\tilde g_k$ sequentially, i.e., $\tilde{P}_0 = \tilde{g}_{0:k}(\tilde{P}_{k+1})$
+
+\begin{theorem}[LFT form for Riccati Recursion] \label{thm:single_step_lft}
+The Riccati recursion is equivalent to a Linear Fractional Transformation (LFT) on the inverse of $P_k$:
+\begin{equation}\label{eq:single_step_lft}
+    \tilde{g}_k(\tilde{P}) \triangleq E_k - F_k(\tilde{P} + G_k)^{-1}F_k^\top,
+\end{equation}
+such that $\tilde{P}_k = \tilde{g}_k(\tilde{P}_{k+1})$. where,
+\begin{equation}
+\begin{aligned}
+    E_k = Q_k^{-1}, \;
+    F_k = Q_k^{-1}A_k^\top, \;
+    G_k = A_k Q_k^{-1}A_k^\top + B_k R_k^{-1}B_k^\top.
+\end{aligned}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+We will use the Woodbury matrix identity: for invertible matrices $A$ and $C$, the following identity holds.
+\begin{equation} \label{eq:woodbury_identity}
+    (A + UCV)^{-1} = A^{-1} - A^{-1}U(C^{-1} + VA^{-1}U)^{-1}VA^{-1},
+\end{equation}
+where $A$, $C$, $U$ and $V$ are matrices of sizes $n_1\times n_1$, $n_2\times n_2$, $n_1\times n_2$, and $n_2\times n_1$ respectively.
+% matrices: A is n×n, C is k×k, U is n×k, and V is k×n.
+
+Our proof consists of two steps.
+First, we rewrite the Riccati equation as:
+\begin{align}
+P_k &= Q_k + A_k^\top {\mathcal{K}} A_k
+\end{align}
+where, $\mathcal{K} = {\left[ P_{k+1} - P_{k+1} B_k (R_k + B_k^\top P_{k+1} B_k)^{-1} B_k^\top P_{k+1} \right]}$.
+We recognize the term $\mathcal{K}$ as the right-hand side of the Woodbury identity.
+By setting $A^{-1} = P_{k+1}$, $U = B_k$, $V = B_k^\top$, and $C^{-1} = R_k$, the identity \eqref{eq:woodbury_identity} implies:
+\[
+    \mathcal{K} = (P_{k+1}^{-1} + B_k R_k^{-1} B_k^\top)^{-1}.
+\]
+Substituting $\tilde{P}_{k+1} = P_{k+1}^{-1}$ and defining $S_k \triangleq B_k R_k^{-1} B_k^\top$, the Riccati equation becomes:
+\begin{equation} \label{eq:intermediate_pk}
+    P_k = Q_k + A_k^\top (\tilde{P}_{k+1} + S_k)^{-1} A_k.
+\end{equation}
+Next, we invert Eq.~\eqref{eq:intermediate_pk} to obtain the LFT form:
+\begin{align}
+    \tilde{P}_k = P_k^{-1} = \left( Q_k + A_k^\top (\tilde{P}_{k+1} + S_k)^{-1} A_k \right)^{-1}.
+\end{align}
+We apply the Woodbury identity \eqref{eq:woodbury_identity} again by setting $A = Q_k$, $U = A_k^\top$, $V = A_k$, and $C = (\tilde{P}_{k+1} + S_k)^{-1}$, which yields:
+\begin{align}
+    \tilde{P}_k &= Q_k^{-1} - Q_k^{-1} A_k^\top \Bigl( (\tilde{P}_{k+1} + S_k) + A_k Q_k^{-1} A_k^\top \Bigr)^{-1} A_k Q_k^{-1}.
+\end{align}
+Define $E_k = Q_k^{-1}$, $F_k = Q_k^{-1}A_k^\top$, $G_k = A_k Q_k^{-1}A_k^\top + B_k R_k^{-1}B_k^\top$, we obtain the desired LFT form.
+\end{proof}
+
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=0.8\textwidth]{source/figures/alg_flow.png}
+    \vspace{-4mm}
+    \caption{Illustration of our \abbrAlg Algorithm.
+    {Green Blocks:} The system matrices are used to compute matrices $(E_k, F_k, G_k)$ and $(\overline{E}_k, \overline{F}_k, \overline{G}_k)$.
+    {Top Row (Blue):} The maps $\tilde{g}_k(\cdot)$ forms the regular backward pass that maps $\tilde P_k$ to $\tilde P_{k-1}$.
+    {Bottom Row (Purple):} The matrices $(\overline{E}_k, \overline{F}_k, \overline{G}_k)$ allow computing the composed maps $\tilde{g}_{0:k}(\cdot)$, which enables direct evaluation of the inverse of initial cost-to-go ($\tilde P_0$) for any horizon $k$.
+    For example, to evaluate the cost for horizon $N-1$, let $\tilde{P}_{N-1}$ be the terminal cost-to-go matrix $\tilde{P_T}$. Then, the initial cost-to-go matrix is $\tilde{P_0}^{(N-1)} = \tilde{g}_{0:N-2}(\tilde{P}_{N-1})$. Then, the cost can be computed as $ J_{N-1} = \frac{1}{2} x_0^\top (\tilde{P}_0^{(N-1)})^{-1} x_0 + w \cdot (N-1) $.
+    After evaluating all the time steps $J_k,k=1,2,\cdots,N$, we can find the minimal cost and select the corresponding time step as the optimal horizon.
+    }
+    \label{fig:alg_flow}
+    \vspace{-3mm}
+\end{figure*}
+
+Theorem~\ref{thm:single_step_lft} allows us to rewrite the composite map into LFT form as well.
+\begin{theorem}[LFT form of the composed maps]\label{thm:composed_lft}
+There exist matrices \((\overline{E}_{k},\overline{F}_{k},\overline{G}_{k})\), $k=0,1,2,\cdots,N$ such that
+\begin{equation}\label{eq:prefix_LFT}
+\tilde{g}_{0:k}(\tilde{P}) \;=\; \overline E_{k} - \overline F_{k}\,(\tilde{P}+\overline  G_{k})^{-1} \overline F_{k}^\top,
+\end{equation}
+where, 
+\begin{equation}\label{eq:prefix_recursion}
+\begin{aligned}
+W_k      &= (E_k + \overline G_{k-1})^{-1},\\
+\overline E_{k}  &=\overline  E_{k-1} -\overline  F_{k-1} W_k\overline  F_{k-1}^\top,\\
+\overline F_{k}  &= \overline F_{k-1} W_k F_k,\\
+\overline G_{k}  &= G_k - F_k^\top W_k F_k,\\
+\end{aligned}
+\end{equation}
+with \( \overline E_{0}=E_0,\; \overline F_{0}=F_0,\; \overline G_{0}=G_0\).
+\end{theorem}
+
+Note that $(A_k,B_k,Q_k,R_k)$ matrices are known as the input of the problem, and $(E_k,F_k,G_k,\overline{E}_k,\overline{F}_k,\overline{G}_k)$ are intermediate variables computed based on $(A_k,B_k,Q_k,R_k)$ and themselves recursively, and the composed map $\tilde{g}_k$ is computed based on $\overline{E}_k,\overline{F}_k,\overline{G}_k$ recursively.
+We will explain this recursive computation later in Alg.~\ref{alg:ltv} with the help of Fig.~\ref{fig:alg_flow}.
+We now prove the correctness of this theorem.
+
+\begin{proof}
+We prove Theorem~\ref{thm:composed_lft} by induction.
+First, for the base case ($k=0$), it holds due to Theorem~\ref{thm:single_step_lft} and that $(\overline{E}_0, \overline{F}_0, \overline{G}_0) = (E_0, F_0, G_0)$.
+Then, for the inductive step, assume the claim holds for $k-1$:
+\begin{align}
+\tilde{g}_{0:k-1}(\tilde{P}) = \overline{E}_{k-1} - \overline{F}_{k-1}(\tilde{P} + \overline{G}_{k-1})^{-1} \overline{F}_{k-1}^\top.\label{hop:eq:thm2_k-1}
+\end{align}
+By composition, $\tilde{g}_{0:k}(\tilde{P}) = \tilde{g}_{0:k-1} \big( \tilde{g}_k(\tilde{P}) \big)$. Substituting Eq.~\eqref{eq:single_step_lft} into the Eq.~\eqref{hop:eq:thm2_k-1} yields
+\begin{equation}\label{eq:proof_sub}
+\begin{aligned}
+    \tilde{g}_{0:k}(\tilde{P}) &= \overline{E}_{k-1} - \overline{F}_{k-1} \Bigl( \bigl[ E_k - F_k(\tilde{P} + G_k)^{-1}F_k^\top \bigr] \\
+    &\quad + \overline{G}_{k-1} \Bigr)^{-1} \overline{F}_{k-1}^\top.
+\end{aligned}
+\end{equation}
+We simplify the inverse term between $\overline{F}_{k-1}$ and $\overline{F}_{k-1}^\top$. Let $W_k \triangleq (E_k + \overline{G}_{k-1})^{-1}$. The term to be inverted becomes:
+\begin{equation}
+    \mathcal{M} \triangleq \Bigl( W_k^{-1} - F_k(\tilde{P} + G_k)^{-1}F_k^\top \Bigr)^{-1}.
+\end{equation}
+Applying the Woodbury identity \eqref{eq:woodbury_identity} with $A=W_k^{-1}$:
+\begin{equation} \label{eq:proof_woodbury}
+    \mathcal{M} = W_k + W_k F_k \left( (\tilde{P} + G_k) - F_k^\top W_k F_k \right)^{-1} F_k^\top W_k.
+\end{equation}
+Substituting \eqref{eq:proof_woodbury} back into \eqref{eq:proof_sub} yields:
+\begin{align*}
+    \tilde{g}_{0:k}(\tilde{P}) &= \underbrace{ \overline{E}_{k-1} - \overline{F}_{k-1} W_k \overline{F}_{k-1}^\top }_{\overline{E}_k} \\
+    &- \underbrace{ \overline{F}_{k-1} W_k F_k }_{\overline{F}_k}
+    ( \tilde{P} + \underbrace{ G_k - F_k^\top W_k F_k }_{\overline{G}_k} )^{-1}
+    \underbrace{ F_k^\top W_k \overline{F}_{k-1}^\top }_{\overline{F}_k^\top}.
+\end{align*}
+The resulting terms match the desired recursive form.
+\end{proof}
+
+\subsection{\abbrAlg Algorithm}
+
+
+Based on Theorem~\ref{thm:composed_lft}, the complete \abbrAlg is summarized in Alg.~\ref{alg:ltv} and illustrated in Fig.~\ref{fig:alg_flow}.
+\abbrAlg can be divided into two phases.
+
+\subsubsection{Phase 1 Compute Composed Maps}
+\abbrAlg performs a single forward sweep to build the parameters of $\tilde g_k$.
+First, for each step $k$, we use system matrices $\{Q_i,R_i,A_i,B_i\}_{i=0}^N$ to compute the parameters $(E_k, F_k, G_k)$ (highlighted in green).
+As shown in the Top Row (highlighted in blue)  of Fig.~\ref{fig:alg_flow}, these parameters fully define the single-step mapping $\tilde{g}_k$, which represents the LFT form of the Riccati equation (Theorem~\ref{thm:single_step_lft}).
+Then, instead of executing the backward recursion immediately, we use the recursive formula in Theorem~\ref{thm:composed_lft} to accumulate these parameters forward, which helps compute the matrices $(\overline{E}_k, \overline{F}_k, \overline{G}_k)$ (highlighted in green) that will be used to compute the composed map $\tilde{g}_{0:k}$ from time $0$ to $k$.
+
+\subsubsection{Phase 2 Fast Horizon Query}
+With the composed maps $\tilde{g}_{0:k}$ stored, evaluating the cost $J_k$ for any horizon $k=1,2,\cdots,N$ becomes a straightforward evaluation of  $J_k$. 
+We apply the stored map at index $t-1$ to the terminal condition $\tilde{P}_t = \tilde{P}_T$. Specifically, the initial inverse cost-to-go $\tilde{P}_0^{(t)}$ is:
+\begin{equation}\label{eq:query_formula}
+    \tilde{P}_0^{(t)} = \tilde{g}_{0:t-1}(\tilde{P}_T).
+\end{equation}
+Once $\tilde{P}_0^{(t)}$ is obtained, the total cost is given by
+\begin{equation}\label{eq:J_t}
+    J_t = \frac{1}{2} x_0^\top 
+(\tilde{P}_0^{(t)})^{-1} x_0 + w \cdot t
+\end{equation}
+This effectively avoids the need to solve the chain of $\tilde{g}$ functions one by one.
+
+With all $J_k$ computed, \abbrAlg can find the $k^*$ such that $J_{k^*}$ reaches the minimum, and this $k^*$ is the optimal horizon to the problem.
+The controls can be obtained in the same way as in regular LQR:
+\begin{align}
+    u_k &= - \underbrace{ R_k^{-1} B_k^\top (\tilde{P}_{k+1} + B_k R_k^{-1} B_k^\top)^{-1} A_k }_{K_k} x_k, \label{eq:optimal_control}
+\end{align}
+
+\begin{algorithm}[t]
+\SetAlgoLined
+\DontPrintSemicolon
+\small
+\caption{\abbrAlg}
+\label{alg:ltv}
+
+\KwIn{System matrices $\{A_k, B_k, Q_k, R_k\}$, Initial state $x_0$, Terminal cost-to-go $\tilde{P}_T$ matrix, Time penalty $w$, Max horizon $N$}
+\KwOut{Optimal costs $\{J_t\}_{t=1}^N$ for all arrival times}
+
+\BlankLine
+\tcp{Phase 1: Compute Composed Maps}
+% \tcp{Step 1a: Compute single-step LFT matrices (Middle Row)}
+\For{$k \gets 0$ \KwTo $N-1$}{
+    \;$E_k \gets Q_k^{-1}$\\
+    $F_k \gets Q_k^{-1} A_k^\top$\\
+    $G_k \gets A_k Q_k^{-1} A_k^\top + B_k R_k^{-1} B_k^\top$\;
+}
+
+% \BlankLine
+% \tcp{Step 1b: Accumulate prefix recursion (Bottom Row)}
+Initialize: $\overline{E}_0 \gets E_0$, $\overline{F}_0 \gets F_0$, $\overline{G}_0 \gets G_0$\;
+
+\For{$k \gets 1$ \KwTo $N-1$}{
+    \;$W_k \gets (E_k + \overline{G}_{k-1})^{-1}$\\
+    $\overline{E}_k \gets \overline{E}_{k-1} - \overline{F}_{k-1} W_k \overline{F}_{k-1}^\top$\\
+    $\overline{F}_k \gets \overline{F}_{k-1} W_k F_k$\;
+    $\overline{G}_k \gets G_k - F_k^\top W_k F_k$\;
+}
+
+% \BlankLine
+\tcp{{Phase 2: Fast Horizon Queries}}
+\For{$t \gets 1$ \KwTo $N$}{
+    % \tcp{Retrieve stored propagator at $t-1$}
+    \;$\tilde{P}_0 \gets \overline{E}_{t-1} - \overline{F}_{t-1} (\tilde{P}_T + \overline{G}_{t-1})^{-1} \overline{F}_{t-1}^\top$\\
+    $P_0 \gets \tilde{P}_0^{-1}$\\
+    $J_t \gets \frac{1}{2} x_0^\top P_0 x_0 + t \cdot w$\;
+}
+
+\Return{$\{J_t\}_{t=1}^N$,  $\arg\min_{t}J_t$}\;
+\end{algorithm}
+
+\subsection{Complexity Analysis}
+Recall that $N$ is the number of all possible horizons to be chosen from, and $n$ is the dimensionality of the system's state $x$.
+As aforementioned, a naive approach for the Horizon-Optimal Time-Varying LQR problem requires solving the Riccati equation repeatedly for every horizon $k=1,\dots,N$, which has a runtime complexity of $\mathcal{O}(N^2 n^3)$.
+
+In contrast, our \abbrAlg only runs the forward recursion once  to compute the composed maps, and then performs simple queries based on these maps.
+The runtime complexity for computing these composed map is $\mathcal{O}(N n^3)$ and the runtime complexity for the queries is $O(N n^3)$ as well.
+The total runtime complexity is $\mathcal{O}(N n^3)$.
+We summarize this result with the following theorem.
+
+\begin{theorem}
+With $N$ being the number of all possible horizons to be chosen from, and $n$ being the dimensionality of the system's state $x$, the proposed \abbrAlg algorithm has a runtime complexity of $\mathcal{O}(N n^3)$.
+\end{theorem}
+
+In other words, compared to the naive approach, \abbrAlg reduces the complexity from quadratic to linear with respect to the number of horizons $N$, which is of the same runtime complexity of the Riccati recursion for the fixed-horizon LQR.
+
+
+% \begin{remark}
+% Standard LQR solves a fixed-horizon problem via one backward Riccati recursion and yields the quadratic value function and linear feedback law~\cite{andersonmoore1990lqr}.
+% A naive horizon scan repeats this recursion for each candidate horizon; ``shift-horizon'' reuse avoids repetition only under stationary dynamics and costs~\cite{stachowicz2021ohmp}.
+% HOP-LQR preserves the same LQR structure, but enables exact reuse for time-varying models by rewriting the Riccati recursion as an LFT and composing $\tilde g_{0:k}$ to query all horizons in a single $\mathcal{O}(N)$ sweep.
+% \end{remark}
+
+
+
